@@ -1,0 +1,16 @@
+name: example
+description: Interactive showcase and demonstration for smart_step_indicator.
+publish_to: 'none'
+
+environment:
+  sdk: '>=3.2.0 <4.0.0'
+  flutter: '>=3.16.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  smart_step_indicator:
+    path: ../
+
+dev_dependencies:
+  flutter_lints: ^5.0.0

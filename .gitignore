@@ -1,0 +1,9 @@
+.dart_tool/
+.packages
+build/
+.DS_Store
+example/.dart_tool/
+example/.packages
+example/build/
+pubspec.lock
+example/pubspec.lock

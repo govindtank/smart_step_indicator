@@ -1,0 +1,32 @@
+name: smart_step_indicator
+description: Responsive, overflow-proof step indicator and timeline stepper for Flutter. Auto-collapses labels to fit screens, status animations, and pulse rings.
+version: 1.0.0
+homepage: https://github.com/govindtank/smart_step_indicator
+repository: https://github.com/govindtank/smart_step_indicator
+issue_tracker: https://github.com/govindtank/smart_step_indicator/issues
+
+funding:
+  - https://github.com/sponsors/govindtank
+  - https://buymeacoffee.com/govindtanko
+
+topics:
+  - stepper
+  - step-indicator
+  - progress
+  - timeline
+  - ui
+
+environment:
+  sdk: ">=3.2.0 <4.0.0"
+  flutter: ">=3.16.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+
+flutter:

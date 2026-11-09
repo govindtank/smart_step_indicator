@@ -1,0 +1,12 @@
+.github/
+.dart_tool/
+.packages
+build/
+.DS_Store
+example/build/
+example/.dart_tool/
+example/android/
+example/ios/
+example/macos/
+example/windows/
+example/linux/
