@@ -1,3 +1,8 @@
+## 1.0.1
+
+- Added high-resolution interactive showcase vector graphics and live browser demo link.
+- Updated documentation with live GitHub Pages simulator, sponsor badges, and author attribution.
+
 ## 1.0.0
 
 - Initial stable release of `smart_step_indicator`.
