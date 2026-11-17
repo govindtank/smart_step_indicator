@@ -407,7 +407,10 @@ class _SmartStepIndicatorState extends State<SmartStepIndicator>
       case StepStatus.completed:
         return widget.completedColor;
       case StepStatus.error:
+      case StepStatus.actionRequired:
         return widget.errorColor;
+      case StepStatus.inReview:
+        return const Color(0xFFF59E0B);
       case StepStatus.pending:
         return widget.pendingColor;
       case StepStatus.disabled:
@@ -422,7 +425,10 @@ class _SmartStepIndicatorState extends State<SmartStepIndicator>
       case StepStatus.completed:
         return widget.completedColor;
       case StepStatus.error:
+      case StepStatus.actionRequired:
         return widget.errorColor;
+      case StepStatus.inReview:
+        return const Color(0xFFF59E0B);
       case StepStatus.pending:
       case StepStatus.disabled:
         return widget.pendingColor;

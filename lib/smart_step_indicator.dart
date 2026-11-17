@@ -1,9 +1,11 @@
 /// A responsive, overflow-proof step indicator and timeline stepper for Flutter.
 ///
-/// Features automatic label collapsing to eliminate screen overflow bugs,
-/// spring status morphing, ambient pulse rings for active steps, and both
-/// horizontal and vertical layout modes.
+/// Features auto-collapsing labels, sub-checkpoint tracking, KYC verification states,
+/// live delivery ETA badges, and turnkey OrderTrackingTimeline for E-Commerce and Fintech.
+///
+/// Implementation by Govind Tank.
 library;
 
+export 'src/order_tracking_timeline.dart';
 export 'src/smart_step.dart';
 export 'src/smart_step_indicator.dart';

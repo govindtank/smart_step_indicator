@@ -1,3 +1,12 @@
+## 1.2.0
+
+* **Turnkey `OrderTrackingTimeline` Widget**: Specialized vertical delivery tracking and KYC pipeline widget designed for E-commerce (Swiggy, Zomato, Amazon) and Fintech verification.
+* **Hierarchical Sub-Checkpoints (`StepSubEvent`)**: Embed granular scan events under milestones (e.g. package arrival times, intermediate courier facilities) with timestamps.
+* **Fintech KYC Action States**: Added `StepStatus.actionRequired` (with dedicated action CTA button `onActionPressed`, `actionLabel`) and `StepStatus.inReview` with visual verification indicator.
+* **Live ETA & Courier Header**: Top summary card with live delivery pulse badge, order ID, and estimated arrival text.
+* **Overhauled Interactive Web Demo**: Added dedicated tabs for E-commerce Live Delivery, Fintech KYC Pipeline, and the width overflow simulator.
+* **Upgraded Hero Showcase**: Crisp vector architecture showcase illustrating real-world delivery tracking cards with zero clipping.
+
 ## 1.0.1
 
 - Added high-resolution interactive showcase vector graphics and live browser demo link.

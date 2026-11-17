@@ -11,111 +11,122 @@
 </p>
 
 <p align="center">
-  <strong>Responsive, overflow-proof step indicator and timeline stepper for Flutter.</strong><br>
-  Intelligently collapses labels to eliminate yellow/black horizontal overflow errors on narrow screens, with ambient pulse rings and animated checkmarks.
+  <strong>Responsive, overflow-proof step indicator and turnkey order tracking timeline for Flutter.</strong><br>
+  Sub-checkpoints, KYC action buttons, live delivery ETA badges, and auto-collapsing labels that eliminate screen overflow exceptions.
 </p>
 
 ---
 
 <p align="center">
   <a href="https://govindtank.github.io/smart_step_indicator/">
-    <img src="https://raw.githubusercontent.com/govindtank/smart_step_indicator/main/doc/assets/hero_showcase.svg" width="100%" alt="Smart Step Indicator Showcase" />
+    <img src="https://raw.githubusercontent.com/govindtank/smart_step_indicator/main/doc/assets/hero_showcase.svg" alt="smart_step_indicator Showcase" width="100%">
   </a>
 </p>
 
-<p align="center">
-  🎮 <strong><a href="https://govindtank.github.io/smart_step_indicator/">Launch Live In-Browser Interactive Demo</a></strong>
-</p>
+---
+
+## ⚡ Key Features
+
+| Feature | Description | Real-World Use Case |
+|---|---|---|
+| **Turnkey `OrderTrackingTimeline`** | Pre-built live delivery timeline with order ID, live ETA badge, and status header | E-Commerce (Amazon/Flipkart), Food Delivery (Swiggy/Zomato) |
+| **Hierarchical Sub-Checkpoints** | Nested sub-events under milestones with scan timestamps (`StepSubEvent`) | Freight & logistics tracking scans |
+| **KYC Action Required States** | `StepStatus.actionRequired` with interactive CTA button (`Re-upload Photo`) | Fintech bank account onboarding & identity checks |
+| **In-Review Verification** | `StepStatus.inReview` with visual verification indicator | Manual audit & IMPS penny-drop verification |
+| **Zero-Overflow Auto Collapse** | Automatically collapses labels to compact dots on narrow screens | Eliminates yellow/black horizontal overflow errors |
+| **Pulsing Radar Node** | Subtle breathing glow effect on active milestones | Highlights current in-progress state |
 
 ---
 
-## ✨ Features
+## 🚀 Quick Usage
 
-- **🛡️ 100% Overflow-Proof:** Automatically measures available screen width. If step labels would cause horizontal overflow on mobile screens or split-view devices, it dynamically collapses labels into clean badge tooltips.
-- **💫 Status-Driven Morphing:** Supports `completed` (spring checkmark), `active` (ambient breathing pulse ring), `pending`, `error` (alert badge), and `disabled` states.
-- **🔄 Dual Orientation:** Seamlessly switches between horizontal checkout wizards and vertical delivery tracking timelines.
-- **👆 Interactive Navigation:** Tap to navigate between steps with optional validation guards (`canChangeStep: (from, to) => bool`).
-- **📳 Tactile Haptic Feedback:** Triggers subtle haptic feedback on step selection.
-- **📦 Zero External Dependencies:** Pure Flutter implementation. Full compatibility across Android, iOS, Web, macOS, Windows, and Linux.
-
----
-
-## 🚀 Getting Started
-
-Add `smart_step_indicator` to your `pubspec.yaml`:
-
-```yaml
-dependencies:
-  smart_step_indicator: ^1.0.1
-```
-
-Import the package:
+### 1. E-Commerce & Food Delivery Tracking (`OrderTrackingTimeline`)
 
 ```dart
-import 'package:smart_step_indicator/smart_step_indicator.dart';
-```
-
----
-
-## 💡 Usage
-
-### 1. Interactive Form Stepper
-
-```dart
-SmartStepIndicator(
-  currentStep: currentStep,
-  onStepTapped: (index) => setState(() => currentStep = index),
-  steps: const [
-    SmartStep(title: 'Account', subtitle: 'Credentials'),
-    SmartStep(title: 'Profile', subtitle: 'Personal info'),
-    SmartStep(title: 'Security', subtitle: '2FA Setup'),
-    SmartStep(title: 'Confirm', subtitle: 'Review'),
-  ],
-)
-```
-
-### 2. Vertical Order Timeline
-
-```dart
-SmartStepIndicator(
-  axis: Axis.vertical,
+OrderTrackingTimeline(
+  orderId: 'DEL-849201',
+  etaTitle: 'Estimated Delivery Today by 8:30 PM',
+  etaSubtitle: 'Courier: Express Surface Freight • Out with Driver',
   currentStep: 2,
   steps: const [
-    SmartStep(title: 'Order Placed', subtitle: '10:14 AM', icon: Icons.receipt_long),
-    SmartStep(title: 'Dispatched', subtitle: 'FedEx #94001', icon: Icons.local_shipping),
-    SmartStep(title: 'Out for Delivery', subtitle: 'Arriving today', icon: Icons.delivery_dining),
-    SmartStep(title: 'Delivered', subtitle: 'Pending', icon: Icons.check_circle_outline),
+    SmartStep(
+      title: 'Order Placed & Confirmed',
+      subtitle: 'Seller processed payment & packed parcel',
+    ),
+    SmartStep(
+      title: 'Dispatched & In-Transit',
+      subtitle: 'Package moving through distribution line',
+      subEvents: [
+        StepSubEvent(
+          title: 'Departed Bhiwandi Sorting Facility',
+          timestamp: 'Nov 17, 08:30 AM',
+        ),
+        StepSubEvent(
+          title: 'Arrived at Bengaluru Central Hub',
+          timestamp: 'Nov 17, 02:45 PM',
+        ),
+      ],
+    ),
+    SmartStep(
+      title: 'Out for Delivery',
+      subtitle: 'Driver Rajesh K. is 1.8 km away',
+      etaBadge: '18 mins left',
+    ),
+    SmartStep(
+      title: 'Delivered',
+      subtitle: 'OTP handover verification required',
+    ),
   ],
 )
 ```
 
 ---
 
-## ⚙️ Configuration
+### 2. Fintech KYC Verification Pipeline
 
-| Property | Type | Default | Description |
-| :--- | :--- | :--- | :--- |
-| `steps` | `List<SmartStep>` | *required* | The list of step data definitions. |
-| `currentStep` | `int` | `0` | Zero-based index of the currently active step. |
-| `axis` | `Axis` | `.horizontal` | Orientation: `.horizontal` or `.vertical`. |
-| `onStepTapped` | `ValueChanged<int>?` | `null` | Callback fired when an enabled step is clicked. |
-| `canChangeStep` | `bool Function(int, int)?` | `null` | Predicate guard before allowing navigation. |
-| `activeColor` | `Color` | `Color(0xFF3B82F6)` | Color for active step and ambient glow ring. |
-| `completedColor` | `Color` | `Color(0xFF10B981)` | Color for completed checkmarks and lines. |
-| `errorColor` | `Color` | `Color(0xFFEF4444)` | Color for error status steps. |
-| `circleSize` | `double` | `36.0` | Node diameter in logical pixels. |
-| `enablePulse` | `bool` | `true` | Plays ambient pulsing ring around the active step. |
-| `responsiveMode` | `StepResponsiveMode` | `.auto` | `.auto`, `.alwaysFull`, or `.compact`. |
+```dart
+OrderTrackingTimeline(
+  orderId: 'KYC-9421',
+  etaTitle: 'KYC Onboarding Pipeline',
+  currentStep: 1,
+  steps: [
+    const SmartStep(
+      title: 'Aadhaar e-KYC Verification',
+      subtitle: 'Instant OTP verified via UIDAI',
+      status: StepStatus.completed,
+    ),
+    SmartStep(
+      title: 'PAN Card Validation',
+      subtitle: 'Document photo blurry • Failed OCR',
+      status: StepStatus.actionRequired,
+      actionLabel: 'Re-upload Clear Photo',
+      onActionPressed: () => launchDocumentCamera(),
+    ),
+    const SmartStep(
+      title: 'Bank Account Penny Drop Check',
+      subtitle: 'Verifying name match via IMPS ₹1.00',
+      status: StepStatus.inReview,
+    ),
+  ],
+)
+```
 
 ---
 
-## 🔗 Related Packages by Author
+### 3. Overflow-Proof Horizontal Stepper
 
-* **[android_island_bar](https://pub.dev/packages/android_island_bar)** — Universal cross-platform island overlay with hardware cutout snapping.
-* **[flutter_sonner](https://pub.dev/packages/flutter_sonner)** — Opinionated stacked action toast & notification HUD inspired by Sonner.
-* **[flutter_smooth_marquee](https://pub.dev/packages/flutter_smooth_marquee)** — Performance-first marquee & auto-scrolling ticker with zero-waste overflow detection.
-* **[adaptive_context_menu](https://pub.dev/packages/adaptive_context_menu)** — Adaptive context menu with 3D pop preview and real-time backdrop blur.
-* **[spatial_card](https://pub.dev/packages/spatial_card)** — 3D tactile interactive cards & multi-plane parallax surfaces.
+```dart
+SmartStepIndicator(
+  currentStep: 1,
+  onStepTapped: (index) => print('Tapped step: $index'),
+  steps: const [
+    SmartStep(title: 'Cart', subtitle: 'Review items'),
+    SmartStep(title: 'Address', subtitle: 'Delivery address'),
+    SmartStep(title: 'Payment', subtitle: 'Card / UPI'),
+    SmartStep(title: 'Confirm', subtitle: 'Order complete'),
+  ],
+)
+```
 
 ---
 
