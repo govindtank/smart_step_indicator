@@ -99,7 +99,7 @@ class _StepperHomeScreenState extends State<StepperHomeScreen>
                 borderRadius: BorderRadius.circular(4),
               ),
               child: const Text(
-                'v1.2.0',
+                'v1.1.0',
                 style: TextStyle(
                   fontSize: 11,
                   fontWeight: FontWeight.w700,

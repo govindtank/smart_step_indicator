@@ -1,4 +1,4 @@
-## 1.2.0
+## 1.1.0
 
 * **Turnkey `OrderTrackingTimeline` Widget**: Specialized vertical delivery tracking and KYC pipeline widget designed for E-commerce (Swiggy, Zomato, Amazon) and Fintech verification.
 * **Hierarchical Sub-Checkpoints (`StepSubEvent`)**: Embed granular scan events under milestones (e.g. package arrival times, intermediate courier facilities) with timestamps.

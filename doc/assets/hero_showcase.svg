@@ -41,7 +41,7 @@
 
     <g transform="translate(940, 6)">
       <rect width="130" height="30" rx="15" fill="#064E3B" fill-opacity="0.5" stroke="#10B981" stroke-width="1.2" />
-      <text x="65" y="19" text-anchor="middle" font-family="monospace" font-size="11" font-weight="bold" fill="#34D399">v1.2.0 READY</text>
+      <text x="65" y="19" text-anchor="middle" font-family="monospace" font-size="11" font-weight="bold" fill="#34D399">v1.1.0 READY</text>
     </g>
   </g>
 

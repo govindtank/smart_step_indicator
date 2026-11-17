@@ -1,6 +1,6 @@
 name: smart_step_indicator
 description: Responsive, overflow-proof step indicator and turnkey order tracking timeline for Flutter. Sub-checkpoints, KYC action states, ETA badges, and auto-collapsing labels.
-version: 1.2.0
+version: 1.1.0
 homepage: https://govindtank.github.io/smart_step_indicator/
 repository: https://github.com/govindtank/smart_step_indicator
 issue_tracker: https://github.com/govindtank/smart_step_indicator/issues
