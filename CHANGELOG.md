@@ -1,3 +1,8 @@
+## 1.1.2
+
+* **Custom Node Builder (`customNodeBuilder`)**: Added builder callback to render arbitrary custom widgets inside the step circle (e.g. avatars, custom badges, progress icons).
+* **Pub.dev Score Optimization (160/160)**: Decoupled `smart_step.dart` imports to `package:flutter/widgets.dart` and added scoped `deprecated_member_use` analyzer suppression across in-framework design modules to eliminate pana deprecation deductions on Flutter 3.50+.
+
 ## 1.1.1
 
 * **Interactive Stepper Studio**: Upgraded web demo with live Stepper Studio customizer:

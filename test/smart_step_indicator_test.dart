@@ -95,4 +95,28 @@ void main() {
     expect(find.text('Packed'), findsOneWidget);
     expect(find.text('Out for Delivery'), findsOneWidget);
   });
+
+  testWidgets('renders custom node content via customNodeBuilder',
+      (WidgetTester tester) async {
+    await tester.pumpWidget(
+      MaterialApp(
+        home: Scaffold(
+          body: SmartStepIndicator(
+            currentStep: 0,
+            customNodeBuilder: (context, index, status) {
+              return Text('NODE-$index');
+            },
+            steps: const [
+              SmartStep(title: 'Custom Step 1'),
+              SmartStep(title: 'Custom Step 2'),
+            ],
+          ),
+        ),
+      ),
+    );
+
+    await tester.pump();
+    expect(find.text('NODE-0'), findsOneWidget);
+    expect(find.text('NODE-1'), findsOneWidget);
+  });
 }

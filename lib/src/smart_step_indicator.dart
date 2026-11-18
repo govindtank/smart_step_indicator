@@ -26,6 +26,7 @@ class SmartStepIndicator extends StatefulWidget {
     this.enablePulse = true,
     this.responsiveMode = StepResponsiveMode.auto,
     this.enableHaptics = true,
+    this.customNodeBuilder,
   })  : assert(circleSize > 0, 'circleSize must be positive'),
         assert(lineThickness > 0, 'lineThickness must be positive');
 
@@ -73,6 +74,10 @@ class SmartStepIndicator extends StatefulWidget {
 
   /// Whether to produce tactile haptic feedback on step taps. Defaults to true.
   final bool enableHaptics;
+
+  /// Optional custom builder for the content inside the step node circle.
+  final Widget Function(BuildContext context, int index, StepStatus status)?
+      customNodeBuilder;
 
   @override
   State<SmartStepIndicator> createState() => _SmartStepIndicatorState();
@@ -348,7 +353,9 @@ class _SmartStepIndicatorState extends State<SmartStepIndicator>
     final color = _getStatusColor(status);
 
     Widget innerContent;
-    if (status == StepStatus.completed) {
+    if (widget.customNodeBuilder != null) {
+      innerContent = widget.customNodeBuilder!(context, index, status);
+    } else if (status == StepStatus.completed) {
       innerContent = const Icon(Icons.check, color: Colors.white, size: 18);
     } else if (status == StepStatus.error) {
       innerContent = const Icon(Icons.close, color: Colors.white, size: 18);
