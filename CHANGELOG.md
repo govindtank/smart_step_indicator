@@ -1,3 +1,11 @@
+## 1.1.1
+
+* **Interactive Stepper Studio**: Upgraded web demo with live Stepper Studio customizer:
+  * Line style switcher: `StepLineStyle.solid`, `dashed`, `dotted`.
+  * Live node size slider (26px to 50px) and line thickness slider (1.5px to 6px).
+  * Orientation switcher (Row vs Column) and interactive step jumping.
+* **Line Style Support (`StepLineStyle`)**: Added solid, dashed, and dotted connecting lines on `SmartStepIndicator`.
+
 ## 1.1.0
 
 * **Turnkey `OrderTrackingTimeline` Widget**: Specialized vertical delivery tracking and KYC pipeline widget designed for E-commerce (Swiggy, Zomato, Amazon) and Fintech verification.

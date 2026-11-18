@@ -60,6 +60,18 @@ enum StepResponsiveMode {
   compact,
 }
 
+/// Visual presentation style of the connecting line between stepper nodes.
+enum StepLineStyle {
+  /// Solid continuous line.
+  solid,
+
+  /// Dashed line with repeating dash intervals.
+  dashed,
+
+  /// Dotted line with small circular dots.
+  dotted,
+}
+
 /// Data definition for an individual step in [SmartStepIndicator].
 class SmartStep {
   /// Creates a step definition.

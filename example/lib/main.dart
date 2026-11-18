@@ -14,7 +14,7 @@ class StepperShowcaseApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title:
-          'smart_step_indicator — Live Order Tracking & KYC Timeline Stepper',
+          'smart_step_indicator — Stepper Studio, Order Tracking & KYC Timeline',
       debugShowCheckedModeBanner: false,
       theme: ThemeData.dark().copyWith(
         scaffoldBackgroundColor: const Color(0xFF090D16),
@@ -41,14 +41,23 @@ class StepperHomeScreen extends StatefulWidget {
 class _StepperHomeScreenState extends State<StepperHomeScreen>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
-  int _currentStep = 1;
+
+  // Studio Customization State
+  int _studioStep = 1;
+  Axis _studioAxis = Axis.horizontal;
+  StepLineStyle _studioLineStyle = StepLineStyle.solid;
+  double _circleSize = 36.0;
+  double _lineThickness = 3.0;
+  bool _enablePulse = true;
+
+  // Real-world state
   double _containerWidth = 420.0;
   bool _panReuploaded = false;
 
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 3, vsync: this);
+    _tabController = TabController(length: 4, vsync: this);
   }
 
   @override
@@ -86,7 +95,7 @@ class _StepperHomeScreenState extends State<StepperHomeScreen>
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                 ),
                 Text(
-                  'Live Order Tracking · Sub-Checkpoints · KYC Stepper',
+                  'Studio Customizer · Order Tracking · KYC Timeline',
                   style: TextStyle(fontSize: 11, color: Colors.grey),
                 ),
               ],
@@ -99,7 +108,7 @@ class _StepperHomeScreenState extends State<StepperHomeScreen>
                 borderRadius: BorderRadius.circular(4),
               ),
               child: const Text(
-                'v1.1.0',
+                'v1.1.1',
                 style: TextStyle(
                   fontSize: 11,
                   fontWeight: FontWeight.w700,
@@ -115,24 +124,250 @@ class _StepperHomeScreenState extends State<StepperHomeScreen>
           indicatorWeight: 3,
           labelColor: const Color(0xFF10B981),
           unselectedLabelColor: Colors.grey,
+          isScrollable: true,
           tabs: const [
+            Tab(icon: Icon(Icons.tune_rounded), text: 'Stepper Studio'),
             Tab(
                 icon: Icon(Icons.local_shipping_rounded),
-                text: 'E-Commerce Tracking'),
+                text: 'Order Tracking'),
+            Tab(icon: Icon(Icons.verified_user_rounded), text: 'KYC Timeline'),
             Tab(
-                icon: Icon(Icons.verified_user_rounded),
-                text: 'Fintech KYC Timeline'),
-            Tab(icon: Icon(Icons.tune_rounded), text: 'Overflow Simulator'),
+                icon: Icon(Icons.aspect_ratio_rounded),
+                text: 'Overflow Simulator'),
           ],
         ),
       ),
       body: TabBarView(
         controller: _tabController,
         children: [
+          _buildStudioTab(),
           _buildOrderTrackingTab(),
           _buildKycTimelineTab(),
           _buildOverflowSimulatorTab(),
         ],
+      ),
+    );
+  }
+
+  Widget _buildStudioTab() {
+    return SingleChildScrollView(
+      padding: const EdgeInsets.all(20),
+      child: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 780),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              // The Stepper Preview Card
+              Container(
+                decoration: BoxDecoration(
+                  color: const Color(0xFF111827),
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(color: const Color(0xFF1F2937)),
+                ),
+                padding: const EdgeInsets.all(24),
+                child: Column(
+                  children: [
+                    SmartStepIndicator(
+                      currentStep: _studioStep,
+                      axis: _studioAxis,
+                      lineStyle: _studioLineStyle,
+                      circleSize: _circleSize,
+                      lineThickness: _lineThickness,
+                      enablePulse: _enablePulse,
+                      onStepTapped: (index) =>
+                          setState(() => _studioStep = index),
+                      steps: const [
+                        SmartStep(
+                            title: 'Account',
+                            subtitle: 'Profile info',
+                            icon: Icons.person_rounded),
+                        SmartStep(
+                            title: 'Billing',
+                            subtitle: 'Payment setup',
+                            icon: Icons.credit_card_rounded),
+                        SmartStep(
+                            title: 'Integrations',
+                            subtitle: 'Connect APIs',
+                            icon: Icons.hub_rounded),
+                        SmartStep(
+                            title: 'Launch',
+                            subtitle: 'Go live',
+                            icon: Icons.rocket_launch_rounded),
+                      ],
+                    ),
+                    const SizedBox(height: 24),
+                    // Navigation controls
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        OutlinedButton(
+                          onPressed: _studioStep > 0
+                              ? () => setState(() => _studioStep--)
+                              : null,
+                          child: const Text('Back'),
+                        ),
+                        const SizedBox(width: 12),
+                        ...List.generate(4, (i) {
+                          final isActive = _studioStep == i;
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 4),
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: isActive
+                                    ? const Color(0xFF10B981)
+                                    : const Color(0xFF1F2937),
+                                foregroundColor:
+                                    isActive ? Colors.black : Colors.white,
+                                minimumSize: const Size(36, 36),
+                                padding: EdgeInsets.zero,
+                              ),
+                              onPressed: () => setState(() => _studioStep = i),
+                              child: Text('${i + 1}'),
+                            ),
+                          );
+                        }),
+                        const SizedBox(width: 12),
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: const Color(0xFF10B981),
+                            foregroundColor: Colors.black,
+                          ),
+                          onPressed: _studioStep < 3
+                              ? () => setState(() => _studioStep++)
+                              : null,
+                          child: const Text('Next'),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 20),
+
+              // Studio Controls
+              Container(
+                decoration: BoxDecoration(
+                  color: const Color(0xFF111827),
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(color: const Color(0xFF1F2937)),
+                ),
+                padding: const EdgeInsets.all(20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'STEPPER CONFIGURATION CONTROLS',
+                      style: TextStyle(
+                          fontSize: 11,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.grey),
+                    ),
+                    const SizedBox(height: 16),
+                    Row(
+                      children: [
+                        const Text('Line Style:',
+                            style: TextStyle(
+                                fontSize: 12, fontWeight: FontWeight.bold)),
+                        const SizedBox(width: 12),
+                        SegmentedButton<StepLineStyle>(
+                          segments: const [
+                            ButtonSegment(
+                                value: StepLineStyle.solid,
+                                label: Text('Solid')),
+                            ButtonSegment(
+                                value: StepLineStyle.dashed,
+                                label: Text('Dashed')),
+                            ButtonSegment(
+                                value: StepLineStyle.dotted,
+                                label: Text('Dotted')),
+                          ],
+                          selected: {_studioLineStyle},
+                          onSelectionChanged: (val) =>
+                              setState(() => _studioLineStyle = val.first),
+                        ),
+                        const SizedBox(width: 24),
+                        const Text('Axis:',
+                            style: TextStyle(
+                                fontSize: 12, fontWeight: FontWeight.bold)),
+                        const SizedBox(width: 8),
+                        SegmentedButton<Axis>(
+                          segments: const [
+                            ButtonSegment(
+                                value: Axis.horizontal, label: Text('Row')),
+                            ButtonSegment(
+                                value: Axis.vertical, label: Text('Column')),
+                          ],
+                          selected: {_studioAxis},
+                          onSelectionChanged: (val) =>
+                              setState(() => _studioAxis = val.first),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 16),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text('Node Diameter: ${_circleSize.round()}px',
+                                  style: const TextStyle(
+                                      fontSize: 11, color: Colors.grey)),
+                              Slider(
+                                value: _circleSize,
+                                min: 26.0,
+                                max: 50.0,
+                                divisions: 12,
+                                activeColor: const Color(0xFF10B981),
+                                onChanged: (v) =>
+                                    setState(() => _circleSize = v),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(width: 20),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                  'Line Thickness: ${_lineThickness.toStringAsFixed(1)}px',
+                                  style: const TextStyle(
+                                      fontSize: 11, color: Colors.grey)),
+                              Slider(
+                                value: _lineThickness,
+                                min: 1.5,
+                                max: 6.0,
+                                divisions: 9,
+                                activeColor: const Color(0xFF10B981),
+                                onChanged: (v) =>
+                                    setState(() => _lineThickness = v),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Row(
+                          children: [
+                            const Text('Pulse Glow:',
+                                style: TextStyle(
+                                    fontSize: 12, color: Colors.grey)),
+                            Switch(
+                              value: _enablePulse,
+                              activeThumbColor: const Color(0xFF10B981),
+                              onChanged: (v) =>
+                                  setState(() => _enablePulse = v),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -310,9 +545,9 @@ class _StepperHomeScreenState extends State<StepperHomeScreen>
                   child: Column(
                     children: [
                       SmartStepIndicator(
-                        currentStep: _currentStep,
+                        currentStep: _studioStep,
                         onStepTapped: (index) =>
-                            setState(() => _currentStep = index),
+                            setState(() => _studioStep = index),
                         steps: const [
                           SmartStep(
                               title: 'Cart Review', subtitle: 'Review items'),
@@ -327,8 +562,8 @@ class _StepperHomeScreenState extends State<StepperHomeScreen>
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           OutlinedButton(
-                            onPressed: _currentStep > 0
-                                ? () => setState(() => _currentStep--)
+                            onPressed: _studioStep > 0
+                                ? () => setState(() => _studioStep--)
                                 : null,
                             child: const Text('Back'),
                           ),
@@ -338,8 +573,8 @@ class _StepperHomeScreenState extends State<StepperHomeScreen>
                               backgroundColor: const Color(0xFF10B981),
                               foregroundColor: Colors.black,
                             ),
-                            onPressed: _currentStep < 3
-                                ? () => setState(() => _currentStep++)
+                            onPressed: _studioStep < 3
+                                ? () => setState(() => _studioStep++)
                                 : null,
                             child: const Text('Next Step'),
                           ),

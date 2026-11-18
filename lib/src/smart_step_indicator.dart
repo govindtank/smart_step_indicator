@@ -22,6 +22,7 @@ class SmartStepIndicator extends StatefulWidget {
     this.errorColor = const Color(0xFFEF4444),
     this.circleSize = 36.0,
     this.lineThickness = 3.0,
+    this.lineStyle = StepLineStyle.solid,
     this.enablePulse = true,
     this.responsiveMode = StepResponsiveMode.auto,
     this.enableHaptics = true,
@@ -60,6 +61,9 @@ class SmartStepIndicator extends StatefulWidget {
 
   /// Thickness of the connector lines between steps. Defaults to 3.0.
   final double lineThickness;
+
+  /// Visual presentation style of the connecting line (solid, dashed, dotted).
+  final StepLineStyle lineStyle;
 
   /// Whether to play a subtle ambient pulse ring on the active step. Defaults to true.
   final bool enablePulse;
@@ -228,6 +232,9 @@ class _SmartStepIndicatorState extends State<SmartStepIndicator>
         final isLineCompleted = status == StepStatus.completed &&
             (nextStatus == StepStatus.completed ||
                 nextStatus == StepStatus.active);
+        final lineColor = isLineCompleted
+            ? widget.completedColor
+            : widget.pendingColor.withValues(alpha: 0.3);
 
         children.add(
           Expanded(
@@ -236,12 +243,21 @@ class _SmartStepIndicatorState extends State<SmartStepIndicator>
               margin: EdgeInsets.only(
                 bottom: showTitle ? (showSubtitle ? 28.0 : 20.0) : 0.0,
               ),
-              decoration: BoxDecoration(
-                color: isLineCompleted
-                    ? widget.completedColor
-                    : widget.pendingColor.withValues(alpha: 0.3),
-                borderRadius: BorderRadius.circular(widget.lineThickness),
-              ),
+              child: widget.lineStyle == StepLineStyle.solid
+                  ? Container(
+                      decoration: BoxDecoration(
+                        color: lineColor,
+                        borderRadius:
+                            BorderRadius.circular(widget.lineThickness),
+                      ),
+                    )
+                  : CustomPaint(
+                      painter: _StepLinePainter(
+                        color: lineColor,
+                        thickness: widget.lineThickness,
+                        style: widget.lineStyle,
+                      ),
+                    ),
             ),
           ),
         );
@@ -434,4 +450,51 @@ class _SmartStepIndicatorState extends State<SmartStepIndicator>
         return widget.pendingColor;
     }
   }
+}
+
+class _StepLinePainter extends CustomPainter {
+  const _StepLinePainter({
+    required this.color,
+    required this.thickness,
+    required this.style,
+  });
+
+  final Color color;
+  final double thickness;
+  final StepLineStyle style;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = color
+      ..strokeWidth = thickness
+      ..strokeCap =
+          style == StepLineStyle.dotted ? StrokeCap.round : StrokeCap.square;
+
+    if (style == StepLineStyle.solid) {
+      canvas.drawLine(
+        Offset(0, size.height / 2),
+        Offset(size.width, size.height / 2),
+        paint,
+      );
+      return;
+    }
+
+    final dashWidth = style == StepLineStyle.dotted ? 2.0 : 6.0;
+    final dashSpace = style == StepLineStyle.dotted ? 4.0 : 4.0;
+    double startX = 0;
+    final y = size.height / 2;
+
+    while (startX < size.width) {
+      final endX = (startX + dashWidth).clamp(0.0, size.width);
+      canvas.drawLine(Offset(startX, y), Offset(endX, y), paint);
+      startX += dashWidth + dashSpace;
+    }
+  }
+
+  @override
+  bool shouldRepaint(_StepLinePainter oldDelegate) =>
+      oldDelegate.color != color ||
+      oldDelegate.thickness != thickness ||
+      oldDelegate.style != style;
 }
